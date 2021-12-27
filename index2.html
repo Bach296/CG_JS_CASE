@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="Canvasmain" width="500" height="500" style="background-color: chocolate;"></canvas>
+</body>
+<script>
+    let canvas = document.getElementById("Canvasmain");
+        let content = canvas.getContext("2d");
+        let x = canvas.width / 2;
+        let y = canvas.height / 4;
+        let xplus = 3;
+        let yplus = -3;
+        var paddleHeight = 10;
+        var paddleWidth = 75;
+        var paddleX = (canvas.width - paddleWidth) / 2;
+        var rightPressed = false;
+        var leftPressed = false;
+        document.addEventListener("keydown", keyDownHandler, false);
+        document.addEventListener("keyup", keyUpHandler, false);
+
+
+        function keyDownHandler(e) {
+                if (e.key == "Right" || e.key == "ArrowRight") {
+                    rightPressed = true;
+                }
+                else if (e.key == "Left" || e.key == "ArrowLeft") {
+                    leftPressed = true;
+                }
+            }
+
+            function keyUpHandler(e) {
+                if (e.key == "Right" || e.key == "ArrowRight") {
+                    rightPressed = false;
+                }
+                else if (e.key == "Left" || e.key == "ArrowLeft") {
+                    leftPressed = false;
+                }
+            }
+
+
+
+        function drawball() {
+            content.beginPath();
+            content.arc(x, y, 10, 0, Math.PI * 2);
+            content.fillStyle = "blue";
+            content.fill();
+            content.closePath();
+        }
+        function drawbar(){
+            content.beginPath();
+            content.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
+            content.fillStyle = "#0095DD";
+            content.fill();
+            content.closePath();
+        }
+        function drawmove() {
+            content.clearRect(0, 0, canvas.width, canvas.height);
+            drawball();
+            drawbar();
+            /* if (x + xplus > canvas.width - 10 || x + xplus < 10) {
+                xplus = -xplus;
+            }
+            if (y + yplus > canvas.height - 10 || y + yplus < 10) {
+                yplus = -yplus;
+            } */
+            if (x  >= canvas.width - 10 || x  <= 10) {
+                xplus = -xplus;
+            }
+            if (y  >= canvas.height - 10 || y  <= 10) {
+                yplus = -yplus;
+            }
+
+
+            if (rightPressed) {
+                paddleX += 7;
+                if (paddleX + paddleWidth > canvas.width) {
+                    paddleX = canvas.width - paddleWidth;
+                }
+            }
+            else if (leftPressed) {
+                paddleX -= 7;
+                if (paddleX < 0) {
+                    paddleX = 0;
+                }
+            }
+            x+= xplus;
+            y+= yplus;
+    
+        
+        }
+        
+        setInterval(drawmove, 10);
+
+       
+        
+    </script>
+</html>
