@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+   h1  {
+       margin-left: 30%;
+   }
+   canvas {
+    margin-left: 30%;
+   }
+   p {
+    margin-left: 30%;
+    font-size: larger;
+    font-family: sans-serif;
+   }
+  
+</style>
+<body>
+   
+    <h1>BOUNCING BALL GAME</h1>
+    <canvas id="Canvasmain" width="500" height="500" style="background-color: chocolate;"></canvas>
+    <p>An nut <img width="30px" src="https://img.icons8.com/ios-filled/50/000000/long-arrow-left.png"/> Va <img  width="30px" src="https://img.icons8.com/ios-filled/50/000000/long-arrow-right.png"/> Tren ban phim de chuyen thanh Bar </p>
+    
+</body>
+<script>
+    let canvas = document.getElementById("Canvasmain");
+        let content = canvas.getContext("2d");
+        let x = canvas.width -20;
+        let y = canvas.height -60;
+        let xplus = 3;
+        let yplus = -3;
+        let paddleHeight = 20;
+        let paddleWidth = 75;
+        let paddleX = (canvas.width - paddleWidth) / 2;
+        let trai = false;
+        let phai = false;
+        document.addEventListener("keydown", nhanphim);
+        document.addEventListener("keyup", thaphim);
+
+        /* Ham thay doi gia tri cua bien khi an phim */
+        function nhanphim(event) {
+                if (event.key == "Right" || event.key == "ArrowRight") {
+                    phai = true;
+                }
+                else if (event.key == "Left" || event.key == "ArrowLeft") {
+                    trai = true;
+                }
+            }
+        /* Ham thay doi gia tri cua bien khi tha? phim */
+            function thaphim(event) {
+                    if (event.key == "Right" || event.key == "ArrowRight") {
+                        phai = false;
+                    }
+                    else if (event.key == "Left" || event.key == "ArrowLeft") {
+                        trai = false;
+                    }
+                }
+
+
+
+
+        function drawball() {
+            content.beginPath();
+            content.arc(x, y, 10, 0, Math.PI * 2);
+            content.fillStyle = "blue";
+            content.fill();
+            content.closePath();
+        }
+        function drawbar(){
+            content.beginPath();
+            content.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
+            content.fillStyle = "green";
+            content.fill();
+            content.closePath();
+        }
+
+        /* Ham chuyen dong cua bar + ball  */
+        function drawmove() {
+            content.clearRect(0, 0, canvas.width, canvas.height);
+        
+            if (x  >= canvas.width - 10 || x  <= 10) {
+                xplus = -xplus;
+            }
+            if (y <= 10) {
+                yplus = -yplus;
+            } else if (y >= canvas.height - 10) {
+                if (x > paddleX && x < paddleX + paddleWidth) {
+                    yplus = -yplus;
+                }
+                else {
+                    alert("NON QUA BAN EIII");
+                    clearInterval(interval);
+                    document.location.reload();
+                }
+            }
+            x+= xplus;
+            y+= yplus;
+            drawball();
+    
+
+
+
+            if (phai && paddleX < canvas.width - paddleWidth) {
+                paddleX += 7;
+            }
+            else if (trai && paddleX > 0) {
+                paddleX -= 7;
+            }
+            drawbar();
+            
+        
+        }
+        
+        
+        let interval = setInterval(drawmove, 10);
+
+       
+        
+    </script>
+</html>
