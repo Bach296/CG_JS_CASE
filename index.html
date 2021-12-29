@@ -30,10 +30,10 @@
 <script>
     let canvas = document.getElementById("Canvasmain");
         let content = canvas.getContext("2d");
-        let x = canvas.width -20;
-        let y = canvas.height -60;
-        let xplus = 3;
-        let yplus = -3;
+        let x = randomso(100,canvas.width);
+        let y = randomso(100,canvas.height);
+        let xplus = 2;
+        let yplus = - 5;
         let paddleHeight = 20;
         let paddleWidth = 75;
         let paddleX = (canvas.width - paddleWidth) / 2;
@@ -41,6 +41,10 @@
         let phai = false;
         document.addEventListener("keydown", nhanphim);
         document.addEventListener("keyup", thaphim);
+
+        function randomso(min, max) {
+                return Math.floor(Math.random() * (max - min)) + min;
+            }
 
         /* Ham thay doi gia tri cua bien khi an phim */
         function nhanphim(event) {
@@ -102,9 +106,6 @@
             y+= yplus;
             drawball();
     
-
-
-
             if (phai && paddleX < canvas.width - paddleWidth) {
                 paddleX += 7;
             }
